@@ -10,9 +10,91 @@ Rodar os testes e o lint **localmente** é ótimo — mas humanos esquecem. **CI
 
 É o serviço gratuito de CI/CD que vem embutido no GitHub. Você descreve o pipeline num arquivo YAML dentro de `.github/workflows/` e o GitHub o executa em máquinas virtuais (chamadas *runners*).
 
-## 7.2. O workflow `ci.yml`
+## 7.2. Criar o workflow `ci.yml`
 
-Veja o arquivo completo em [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). Vamos dissecá-lo.
+Adicionado ao seu repositório neste capítulo:
+
+```
+tqs-2026/
+└── .github/
+    └── workflows/
+        └── ci.yml                  ← novo
+```
+
+### Criar as pastas
+
+1. Passe o mouse sobre o nome do repositório no Explorer → **"New Folder"** → nome: `.github` → Enter (sim, com ponto no início).
+2. Clique direito em `.github/` → **"New Folder"** → nome: `workflows` → Enter.
+
+### Criar `ci.yml`
+
+1. Clique direito em `.github/workflows/` → **"New File"** → nome: `ci.yml`.
+2. Cole:
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  qualidade-e-testes:
+    name: Lint, segurança e testes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Lint (ruff check)
+        run: ruff check .
+
+      - name: Formatação (ruff format)
+        run: ruff format --check .
+
+      - name: Análise de segurança (bandit)
+        run: bandit -r src/
+
+      - name: Testes + cobertura
+        run: pytest --cov=src --cov-report=term --cov-report=xml --cov-fail-under=80
+
+      - name: Publicar relatório de cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
+```
+
+3. Salve.
+
+### Commit e push
+
+```bash
+git add .github/workflows/ci.yml
+git commit -m "ci: adiciona pipeline de qualidade + testes"
+git push
+```
+
+A partir desse push, **o workflow já está ativo** — vai rodar automaticamente neste push e em todos os próximos.
+
+## 7.3. Dissecando o workflow
+
+Vamos olhar bloco por bloco do `ci.yml` que você acabou de criar.
 
 ### Quando o workflow roda
 
@@ -92,14 +174,14 @@ steps:
 
 5. **Publica** o XML de cobertura como artifact (com `if: always()`, sobe mesmo se o pipeline falhou, para você inspecionar). Você baixa pela aba **Actions** do PR.
 
-## 7.3. Vendo o CI rodar pela primeira vez
+## 7.4. Vendo o CI rodar pela primeira vez
 
 1. Faça qualquer commit e `git push origin main`.
 2. No GitHub, vá em **Actions**.
 3. Você verá o workflow **CI** em amarelo (rodando), depois verde (sucesso) ou vermelho (falha).
 4. Clique no run para ver os logs de cada passo.
 
-## 7.4. Como ler logs de falha
+## 7.5. Como ler logs de falha
 
 1. Vá em **Actions** no GitHub.
 2. Clique no workflow que falhou (ícone vermelho).
@@ -109,7 +191,7 @@ steps:
 
 > **Dica de ouro**: copie a mensagem de erro **literal** e busque no Google. Em 90% dos casos, alguém já passou pelo mesmo problema.
 
-## 7.5. Status no PR
+## 7.6. Status no PR
 
 Quando você abrir um PR (próximos capítulos), o GitHub mostra automaticamente o status do CI:
 
@@ -118,7 +200,7 @@ Quando você abrir um PR (próximos capítulos), o GitHub mostra automaticamente
 
 Configurações de *branch protection* (capítulo 9) podem **proibir** o merge enquanto o CI estiver vermelho.
 
-## 7.6. O ciclo virtuoso
+## 7.7. O ciclo virtuoso
 
 ```
 1. Alguém escreve código

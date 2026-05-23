@@ -6,6 +6,8 @@
 
 Sabemos rodar testes que já existem. Agora vamos aprender a **escrever testes antes do código** — esse é o coração do TDD.
 
+> 📜 **Capítulo retrospectivo.** Nos capítulos 3 e 4 você já criou o `src/validators.py` com a versão final e o `tests/test_validators.py` com a suíte completa. Aqui o livro **conta a história**: como um desenvolvedor disciplinado teria chegado àquele código fazendo TDD de verdade. Você pode acompanhar lendo e entendendo — ou recriar os passos numa branch de estudo. **A oportunidade de praticar TDD com as próprias mãos está no [capítulo 10](10-atividade-pratica.md)**, ao adicionar CNPJ e telefone.
+
 ## 5.1. O que é TDD?
 
 **TDD** = *Test-Driven Development* (desenvolvimento guiado por testes).

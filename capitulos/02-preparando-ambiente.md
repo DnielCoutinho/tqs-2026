@@ -155,57 +155,44 @@ ruff check .                        # lint
 git checkout -b feat/nova-feature   # cria branch
 ```
 
-## 2.6. Estrutura final do repositório
+## 2.6. Como criar arquivos e pastas no Codespace
 
-Ao final desta disciplina, seu repositório terá esta estrutura:
+Você vai criar muitos arquivos nos próximos capítulos. **Faça sempre pela interface do VS Code** — é mais simples e visual do que comandos `mkdir`/`touch` no terminal.
 
-```
-tqs-2026/
-├── .devcontainer/
-│   └── devcontainer.json           # config do Codespaces (criado neste capítulo)
-├── .github/
-│   ├── workflows/
-│   │   ├── ci.yml                  # lint + testes + cobertura
-│   │   └── deploy.yml              # deploy GitHub Pages
-│   ├── ISSUE_TEMPLATE/             # templates para abrir issues
-│   ├── pull_request_template.md    # checklist obrigatório de PRs
-│   └── CODEOWNERS                  # quem revisa o quê
-├── capitulos/                      # este livro didático
-├── src/
-│   ├── validators.py               # VERSÃO PRINCIPAL da lógica
-│   ├── app.py                      # rotas Flask
-│   └── templates/index.html        # formulário renderizado pelo Flask
-├── tests/
-│   ├── test_validators.py          # testes unitários (4)
-│   └── test_app.py                 # testes de integração (2)
-├── docs/                           # publicado no GitHub Pages
-│   ├── index.html
-│   ├── validators.js               # ESPELHO em JS de validators.py
-│   └── style.css
-├── pyproject.toml                  # config ruff + pytest + coverage
-├── requirements.txt                # Flask
-├── requirements-dev.txt            # pytest, ruff, bandit, coverage
-└── README.md                       # sumário do livro
-```
+### Criar uma pasta
 
-> **De onde vêm esses arquivos?** Os próximos capítulos explicam **o que cada um faz** e o [capítulo 10](10-atividade-pratica.md) traz **código pronto** para você criar/modificar via interface do VS Code dentro do Codespace. Alternativamente, seu professor pode disponibilizar o repositório-modelo já populado para você fazer **fork** — pergunte na primeira aula.
+1. No painel **EXPLORER** (lado esquerdo do VS Code, ícone de dois arquivos sobrepostos), passe o mouse sobre o nome do repositório no topo. Aparecem 4 ícones.
+2. Clique no ícone **"New Folder"** (ícone de pasta com `+`).
+3. Digite o nome (ex: `src`) e tecle **Enter**.
 
-## 2.7. Personalizações antes do primeiro `push`
+> Para criar uma subpasta, clique direito numa pasta existente → **"New Folder"**.
 
-Se você partiu de um **fork** do repositório-modelo (em vez do passo 2.2), há **dois lugares** com placeholders para trocar pelo seu usuário do GitHub:
+### Criar um arquivo
 
-- [`docs/index.html`](../docs/index.html) — no rodapé, troque `SEU-USUARIO` na URL `https://github.com/SEU-USUARIO/tqs-2026` pelo seu usuário.
-- [`.github/CODEOWNERS`](../.github/CODEOWNERS) — descomente a linha `# * @SEU-USUARIO` e troque pelo seu usuário.
+1. Clique direito na pasta onde você quer criar (ou na raiz, no topo do explorer).
+2. Selecione **"New File"**.
+3. Digite o nome completo, **incluindo a extensão** (ex: `validators.py`).
+4. Tecle **Enter**. O arquivo abre vazio no editor central.
+5. Cole o conteúdo do código que o livro vai te dar.
+6. Salve com **`Ctrl + S`** (o ponto bolado no nome da aba desaparece quando salva).
 
-No terminal do Codespace, para encontrar todas as ocorrências:
+### Atalho útil
 
-```bash
-grep -rn "SEU-USUARIO" .
-```
+Você pode digitar o **caminho completo** ao criar um arquivo. Por exemplo, com o explorador na raiz, ao clicar em "New File" e digitar `src/templates/index.html`, o VS Code cria as pastas `src/` e `src/templates/` automaticamente se elas não existirem.
 
-Faça as substituições, confira que o `grep` não retorna mais nada, faça commit e push.
+> 💡 **Formato automático ao salvar**: como nosso `devcontainer.json` já configurou `editor.formatOnSave: true` com o Ruff, todo arquivo `.py` é formatado automaticamente ao salvar. Você não precisa se preocupar com indentação ou estilo — basta colar o código e salvar.
 
-> Os outros lugares com o nome do professor (LICENSE, README, pyproject.toml) são de **autoria** do material didático e devem ficar como estão — quando você forka, herda a licença MIT e o crédito do autor original.
+## 2.7. Próximo passo: construir o projeto
+
+Você está com um Codespace aberto, um terminal funcionando e um repositório quase vazio (só `README.md` e `.devcontainer/devcontainer.json`).
+
+A partir daqui você tem **dois caminhos**:
+
+1. **Forkar o repositório-modelo do professor** (caminho ideal para quem só quer rodar) — você herda todos os arquivos prontos e pode pular para o [capítulo 10](10-atividade-pratica.md) direto. Quando for forkar, lembre de configurar o Codespace no seu fork e ajustar os placeholders `SEU-USUARIO` (instruções no fim do capítulo 9).
+
+2. **Construir cada arquivo seguindo os próximos capítulos** (caminho desta disciplina) — você cria todas as pastas e arquivos pela interface do VS Code, copia o código que o livro fornece, e entende exatamente para que cada peça serve.
+
+**Vamos pelo caminho 2.** Cada um dos próximos capítulos (3 a 9) vai te pedir para criar arquivos específicos, sempre com o código pronto. Ao final do capítulo 9, você terá reproduzido o repositório completo.
 
 ---
 
