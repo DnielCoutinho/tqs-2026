@@ -8,7 +8,7 @@ Este repositório é um **livro prático em capítulos**. Construímos juntos um
 A ideia é que você **leia e execute cada capítulo em ordem**, terminando com um projeto completo que você reproduziu do zero.
 
 🌐 **Demo público**: `https://<seu-usuario>.github.io/tqs-2026/`
-
+.
 ---
 
 ## 📖 Sumário do livro
